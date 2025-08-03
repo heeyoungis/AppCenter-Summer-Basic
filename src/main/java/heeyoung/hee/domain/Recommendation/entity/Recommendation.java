@@ -1,0 +1,39 @@
+package heeyoung.hee.domain.Recommendation.entity;
+
+import heeyoung.hee.domain.Assignment.entity.Assignment;
+import heeyoung.hee.domain.User.entity.User;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Recommendation {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "recommendation_id")
+    private Long recommendationId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "task_id")
+    private Assignment assignment;
+
+    @Builder
+    public Recommendation(User user, Assignment assignment) {
+        this.user = user;
+        this.assignment = assignment;
+    }
+
+    public static Recommendation create(User user, Assignment assignment) {
+        return Recommendation.builder()
+                .user(user)
+                .assignment(assignment)
+                .build();
+    }
+}

@@ -1,6 +1,5 @@
 package heeyoung.hee.global.jwt.filter;
 
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ public class jwtExceptionFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             filterChain.doFilter(req, res);
-        } catch (JwtErrorException e) {
+        } catch (JwtException e) {
             res.setStatus(e.getStatusCode());
             res.setContentType("application/json;charset=UTF-8");
             res.setCharacterEncoding("UTF-8");

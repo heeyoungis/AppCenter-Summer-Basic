@@ -34,7 +34,7 @@ public class User {
     private String phoneNumber;
 
     @Builder
-    public User(String email, String password, String name, String part, Double gen, String phoneNumber) {
+    private User(String email, String password, String name, String part, Double gen, String phoneNumber) {
         this.email = email;
         this.password = password;
         this.name = name;

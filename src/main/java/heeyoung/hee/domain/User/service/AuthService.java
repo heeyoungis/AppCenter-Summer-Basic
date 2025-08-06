@@ -49,7 +49,6 @@ public class AuthService {
 
     // 로그인
     public TokenResponseDto login(UserLoginDTO dto) {
-
         try {
             // Login ID/PW 기반으로 AuthenticationToken 생성
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());

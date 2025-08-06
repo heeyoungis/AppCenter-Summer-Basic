@@ -9,10 +9,15 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    // User
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저 조회에 실패하였습니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "이메일이 중복됩니다."),
 
-    DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "이메일이 중복됩니다.");
+    // Assignment
+    ASSIGNMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 과제를 찾을 수 없습니다.");
+
+    // Recommendation
 
     private final HttpStatus httpStatus;
     private final String message;

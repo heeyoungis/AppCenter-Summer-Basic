@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 @Builder
-@AllArgsConstructor
 public class UserResponseDTO {
     private String email;
     private String name;

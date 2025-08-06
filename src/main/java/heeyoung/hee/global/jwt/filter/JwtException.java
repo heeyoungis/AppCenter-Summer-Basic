@@ -1,9 +1,9 @@
 package heeyoung.hee.global.jwt.filter;
 
-public class JwtErrorException extends RuntimeException {
+public class JwtException extends RuntimeException {
     private final int statusCode;
 
-    public JwtErrorException(int statusCode, String message) {
+    public JwtException(int statusCode, String message) {
         super(message);
         this.statusCode = statusCode;
     }

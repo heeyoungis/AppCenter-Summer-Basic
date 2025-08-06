@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
-@AllArgsConstructor
+@NoArgsConstructor
 public class UserLoginDTO {
     private String email;
     private String password;

@@ -14,7 +14,7 @@ public class Recommendation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "recommendation_id")
-    private Long recommendationId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -25,7 +25,7 @@ public class Recommendation {
     private Assignment assignment;
 
     @Builder
-    public Recommendation(User user, Assignment assignment) {
+    private Recommendation(User user, Assignment assignment) {
         this.user = user;
         this.assignment = assignment;
     }

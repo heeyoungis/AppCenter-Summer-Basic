@@ -11,11 +11,14 @@ import heeyoung.hee.domain.User.service.UserService;
 import heeyoung.hee.global.jwt.TokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users/")
@@ -24,25 +27,15 @@ public class UserController {
 
     private final AuthService authService;
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @GetMapping("/")
-    public List<UserResponseDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        /*
-        List<User> 를 List<UserResponseDTO> 로 변환하는 과정을 모르겠어요 ㅠ.ㅠ
-         */
-
-        return null;
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
     @GetMapping("/{parts}")
-    public List<UserResponseDTO> getPartUsers(@PathVariable String parts) {
-        /*
-         @PathVariable로 받은 parts 문자열을 어떻게 활용해서 DB에서 해당 part를 가진 사용자만 조회하는 건가요?
-         Repository에서 특정 필드(part)로 필터링하려면 메서드를 어떻게 정의해야 되는지 모르겠습니당
-         */
-        return null;
+    public ResponseEntity<List<UserResponseDTO>> getPartUsers(@PathVariable String parts) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findByPart(parts));
     }
 
     @GetMapping("/me")

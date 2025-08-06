@@ -4,16 +4,18 @@ import heeyoung.hee.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Assignment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "task_id")
-    private Long taskID;
+    @Column(name = "assignment_id")
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -33,7 +35,7 @@ public class Assignment {
     private User user;
 
     @Builder
-    public Assignment(String title, String content, String link, String createdAt, User user) {
+    private Assignment(String title, String content, String link, String createdAt, User user) {
         this.title = title;
         this.content = content;
         this.link = link;
@@ -48,6 +50,13 @@ public class Assignment {
                 .link(link)
                 .createdAt(createdAt)
                 .build();
+    }
+
+    public Assignment update (String title, String content, String link) {
+        this.title = title;
+        this.content = content;
+        this.link = link;
+        return this;
     }
 
 }

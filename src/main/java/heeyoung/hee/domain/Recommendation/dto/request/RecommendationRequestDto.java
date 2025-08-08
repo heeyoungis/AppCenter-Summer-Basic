@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
-public class RecommendationDTO {
+public class RecommendationRequestDto {
+    private Long recommendationId;
     private Long userID;
     private Long taskID;
 }

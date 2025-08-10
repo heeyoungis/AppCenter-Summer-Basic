@@ -9,6 +9,7 @@ import heeyoung.hee.domain.User.service.AuthService;
 import heeyoung.hee.domain.User.service.UserDetailsImpl;
 import heeyoung.hee.domain.User.service.UserService;
 import heeyoung.hee.global.jwt.TokenResponseDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<String> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserCreateDTO userCreateDTO) {
         User createdUser = authService.signUp(userCreateDTO);
         return ResponseEntity.ok("회원가입 성공");
     }

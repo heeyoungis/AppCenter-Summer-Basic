@@ -44,7 +44,8 @@ public class jwtAuthenticationFilter extends OncePerRequestFilter {
         private String getTokenFromRequest(HttpServletRequest req) {
             String token = req.getHeader("Authorization");
             if (token == null) {
-                throw new JwtException("Authorization Header is null");
+                // 토큰이 없으면 null 반환
+                return null;
             }
             return token.substring(7);
     }

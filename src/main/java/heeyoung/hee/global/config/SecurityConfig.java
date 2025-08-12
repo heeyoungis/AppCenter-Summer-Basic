@@ -27,7 +27,14 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 // URL 접근 권한 설정
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/sign-in", "sign-up","/").permitAll()
+                        .requestMatchers(
+                                "/sign-in",
+                                "/sign-up",
+                                "/",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**").permitAll()
                         .anyRequest().authenticated()
                 )
 

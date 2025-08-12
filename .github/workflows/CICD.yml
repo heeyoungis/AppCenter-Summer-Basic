@@ -76,7 +76,7 @@ jobs:
           script: |
             cd /home/serverking/17-basic-server/heeyoung
 
-            echo "DOCKER_HUB_USERNAME=${{ secrets.DOCKER_HUB_USERNAME }}" > .env
+            echo "DOCKER_HUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > .env
 
             docker-compose down
             docker-compose pull

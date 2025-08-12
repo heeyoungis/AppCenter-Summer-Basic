@@ -2,6 +2,7 @@ package heeyoung.hee.domain.Assignment.entity;
 
 import heeyoung.hee.domain.User.entity.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,12 +19,15 @@ public class Assignment {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "제목은 필수 입력 값입니다.")
     private String title;
 
     @Column(nullable = false)
+    @NotBlank(message = "내용은 필수 입력 값입니다.")
     private String content;
 
     @Column(nullable = false)
+    @NotBlank(message = "링크는 필수 입력 값입니다.")
     private String link;
 
     @Column(nullable = false)

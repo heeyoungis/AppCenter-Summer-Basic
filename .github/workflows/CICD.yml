@@ -74,7 +74,7 @@ jobs:
           password: ${{secrets.APPCENTER_SERVER_PASSWORD}}
           port: ${{secrets.APPCENTER_SERVER_PORT}}
           script: |
-            cd /home/serverking/heeyoung
+            cd /home/serverking/17-basic-server/heeyoung
 
             echo "DOCKER_HUB_USERNAME=${{ secrets.DOCKER_HUB_USERNAME }}" > .env
 

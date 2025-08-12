@@ -1,4 +1,15 @@
-FROM ubuntu:latest
-LABEL authors="mac16"
+FROM openjdk::17
 
-ENTRYPOINT ["top", "-b"]
+LABEL version=0.1
+
+ARG JAR_NAME-=hee-0.0.1-SNAPSHOT.jar
+
+ARG JAR_PATH=./build/libs/${JAR_NAME}
+
+RUN mkdir -p/app
+
+WORKDIP /app
+
+COPY ${JAR_PATH} /app/app.jar
+
+CMD ["java", "-jar", "-Ospring.profiles.active=prod", "/app/app.jar"]

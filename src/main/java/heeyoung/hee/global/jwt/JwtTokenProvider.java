@@ -22,16 +22,16 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${spring.security.jwt.access-token-expiration}")
+    @Value("${jwt.access-token-expiration}")
     private Long accessTokenExpiredTime;
 
-    @Value("${spring.security.jwt.refresh-token-expiration}")
+    @Value("${jwt.refresh-token-expiration}")
     private Long refreshTokenExpiredTime;
 
     private final Key key; // JWT 서명을 위한 Key 객체 선언
     private final UserDetailsServiceImpl userDetailsService;
 
-    public JwtTokenProvider(@Value("${spring.security.jwt.secret}") String secret, UserDetailsServiceImpl userDetailsService){
+    public JwtTokenProvider(@Value("${jwt.secret}") String secret, UserDetailsServiceImpl userDetailsService){
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.userDetailsService = userDetailsService;
     }

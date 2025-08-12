@@ -1,4 +1,4 @@
-FROM openjdk::17
+FROM openjdk:17
 
 LABEL version=0.1
 
@@ -8,7 +8,7 @@ ARG JAR_PATH=./build/libs/${JAR_NAME}
 
 RUN mkdir -p/app
 
-WORKDIP /app
+WORKDIR /app
 
 COPY ${JAR_PATH} /app/app.jar
 

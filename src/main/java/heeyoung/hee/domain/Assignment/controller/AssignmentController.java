@@ -39,7 +39,7 @@ public class AssignmentController {
     }
 
     // 과제 수정
-    @PostMapping("/{assignmentId}")
+    @PatchMapping("/{assignmentId}")
     public ResponseEntity<AssignmentResponseDto> updateAssignment(@RequestBody AssignmentUpdateDTO assignmentUpdateDTO,
                                                                   @PathVariable Long assignmentId) {
         AssignmentResponseDto updatedAssignment = assignmentService.updateAssignment(assignmentUpdateDTO, assignmentId);

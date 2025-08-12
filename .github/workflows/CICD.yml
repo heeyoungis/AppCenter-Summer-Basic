@@ -25,9 +25,9 @@ on:
           with:
             files: ./src/main/resources/application-prod.yml
           env:
-            spring.datasource.url: ${{secrets.POSTMYSQL_URL}}
-            spring.datasource.name: ${{secrets.POSTMYSQL_USERNAME}}
-            spring.datasource.password: ${{secrets.POSTMYSQL_PASSWORD}}
+            spring.datasource.url: ${{secrets.MYSQL_URL}}
+            spring.datasource.name: ${{secrets.MYSQL_USERNAME}}
+            spring.datasource.password: ${{secrets.MYSQL_PASSWORD}}
             jwt.secret: ${{secrets.JWT_SECRET}}
 
         - name: JAR 빌드

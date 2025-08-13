@@ -28,8 +28,8 @@ public class SecurityConfig {
                 // URL 접근 권한 설정
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(
-                                "/sign-in",
-                                "/sign-up",
+                                "/api/users/sign-up",
+                                "/api/users/sign-in",
                                 "/",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",

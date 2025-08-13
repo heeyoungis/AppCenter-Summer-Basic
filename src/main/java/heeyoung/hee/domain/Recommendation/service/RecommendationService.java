@@ -20,11 +20,7 @@ public class RecommendationService {
     private AssignmentRepository assignmentRepository;
 
     // 과제 추천 추가
-    public RecommendationResponseDto doRecommendation(RecommendationRequestDto requestDto) {
-
-        // 유저 등록
-        User user = userRepository.findById(requestDto.getUserID())
-                .orElseThrow(() -> new RestApiException(ErrorCode.USER_NOT_FOUND));
+    public RecommendationResponseDto doRecommendation(User user, RecommendationRequestDto requestDto) {
 
         // 과제 등록
         Assignment assignment = assignmentRepository.findById(requestDto.getTaskID())
@@ -41,10 +37,15 @@ public class RecommendationService {
     }
 
     // 과제 추천 삭제
-    public void deleteRecommendation(RecommendationRequestDto requestDto) {
+    public void deleteRecommendation(User user, RecommendationRequestDto requestDto) {
 
         Recommendation recommendation = recommendationRepository.findById(requestDto.getRecommendationId())
                 .orElseThrow(() -> new RestApiException(ErrorCode.ASSIGNMENT_NOT_FOUND));
+
+        // 삭제를 요청한 User 와 조회한 Recommendation의 userId가 동일하지 않을 경우
+        if (!recommendation.getUser().getId().equals(user.getId())) {
+            throw new RestApiException(ErrorCode.USER_NOT_MATCH);
+        }
 
         recommendationRepository.delete(recommendation);
     }

@@ -15,9 +15,10 @@ public enum ErrorCode {
     DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "이메일이 중복됩니다."),
 
     // Assignment
-    ASSIGNMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 과제를 찾을 수 없습니다.");
+    ASSIGNMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 과제를 찾을 수 없습니다."),
 
     // Recommendation
+    USER_NOT_MATCH(HttpStatus.BAD_REQUEST, "추천 취소 권한이 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

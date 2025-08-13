@@ -23,14 +23,17 @@ public class AssignmentController {
     private final AssignmentService assignmentService;
 
     // 과제 전체 조회
-    @GetMapping("?sort={options}")
-    public ResponseEntity<List<AssignmentResponseDto>> getAll(@PathVariable String options) {
-        String[] sortParams = options.split(",");
+    @GetMapping
+    public ResponseEntity<List<AssignmentResponseDto>> getAll(@RequestParam(name = "sort", required = false) String options) {
+        String[] sortParams = {"createdAt", "asc"}; // 기본값 설정
+        if (options != null) {
+            sortParams = options.split(",");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(assignmentService.findAllAssignments(sortParams[0], sortParams[1]));
     }
 
     // 과제 제출
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<AssignmentResponseDto> submitAssignment(@RequestBody AssignmentSubmitDTO assignmentSubmitDTO,
                                                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();

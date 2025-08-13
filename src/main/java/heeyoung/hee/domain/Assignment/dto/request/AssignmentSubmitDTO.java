@@ -1,5 +1,6 @@
 package heeyoung.hee.domain.Assignment.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AssignmentSubmitDTO {
 
-    @NotEmpty
+    @NotBlank(message = "제목은 필수 입력 값입니다.")
     private String title;
 
-    @NotEmpty
+    @NotBlank(message = "내용은 필수 입력 값입니다.")
     private String content;
 
-    @NotEmpty
+    @NotBlank(message = "링크는 필수 입력 값입니다.")
     private String link;
 }

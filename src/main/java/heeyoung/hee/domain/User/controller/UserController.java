@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users/")
 @RequiredArgsConstructor
-public class UserController {
+public class UserController implements UserApiSpecification {
 
     private final AuthService authService;
     private final UserService userService;

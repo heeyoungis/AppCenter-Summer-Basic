@@ -3,7 +3,6 @@ package heeyoung.hee.domain.Assignment.controller;
 import heeyoung.hee.domain.Assignment.dto.request.AssignmentSubmitDTO;
 import heeyoung.hee.domain.Assignment.dto.request.AssignmentUpdateDTO;
 import heeyoung.hee.domain.Assignment.dto.response.AssignmentResponseDto;
-import heeyoung.hee.domain.Assignment.entity.Assignment;
 import heeyoung.hee.domain.Assignment.service.AssignmentService;
 import heeyoung.hee.domain.User.entity.User;
 import heeyoung.hee.domain.User.service.UserDetailsImpl;
@@ -18,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/assignment/")
 @RequiredArgsConstructor
-public class AssignmentController {
+public class AssignmentController implements AssignmentApiSpecification {
 
     private final AssignmentService assignmentService;
 

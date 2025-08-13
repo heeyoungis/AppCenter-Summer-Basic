@@ -2,7 +2,6 @@ package heeyoung.hee.domain.Recommendation.service;
 
 import heeyoung.hee.domain.Assignment.entity.Assignment;
 import heeyoung.hee.domain.Assignment.repository.AssignmentRepository;
-import heeyoung.hee.domain.Recommendation.dto.request.RecommendationRequestDto;
 import heeyoung.hee.domain.Recommendation.dto.response.RecommendationResponseDto;
 import heeyoung.hee.domain.Recommendation.entity.Recommendation;
 import heeyoung.hee.domain.Recommendation.repository.RecommendationRepository;
@@ -10,20 +9,21 @@ import heeyoung.hee.domain.User.entity.User;
 import heeyoung.hee.domain.User.repository.UserRepository;
 import heeyoung.hee.global.exception.ErrorCode;
 import heeyoung.hee.global.exception.RestApiException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RecommendationService {
 
-    private RecommendationRepository recommendationRepository;
-    private UserRepository userRepository;
-    private AssignmentRepository assignmentRepository;
+    private final RecommendationRepository recommendationRepository;
+    private final AssignmentRepository assignmentRepository;
 
     // 과제 추천 추가
-    public RecommendationResponseDto doRecommendation(User user, RecommendationRequestDto requestDto) {
+    public RecommendationResponseDto doRecommendation(User user, Long assignmentId) {
 
         // 과제 등록
-        Assignment assignment = assignmentRepository.findById(requestDto.getTaskID())
+        Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new RestApiException(ErrorCode.ASSIGNMENT_NOT_FOUND));
 
         // 추천 객체 생성
@@ -37,9 +37,9 @@ public class RecommendationService {
     }
 
     // 과제 추천 삭제
-    public void deleteRecommendation(User user, RecommendationRequestDto requestDto) {
+    public void deleteRecommendation(User user, Long assignmentId) {
 
-        Recommendation recommendation = recommendationRepository.findById(requestDto.getRecommendationId())
+        Recommendation recommendation = recommendationRepository.findByUserIdAndAssignmentId(user.getId(),assignmentId)
                 .orElseThrow(() -> new RestApiException(ErrorCode.ASSIGNMENT_NOT_FOUND));
 
         // 삭제를 요청한 User 와 조회한 Recommendation의 userId가 동일하지 않을 경우

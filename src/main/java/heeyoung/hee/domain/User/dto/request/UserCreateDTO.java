@@ -2,6 +2,7 @@ package heeyoung.hee.domain.User.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +27,7 @@ public class UserCreateDTO {
     @NotBlank(message = "필수 입력 값입니다.")
     private String part;
 
-    @NotBlank(message = "필수 입력 값입니다.")
+    @NotNull(message = "필수 입력 값입니다.")
     private Double gen;
 
     private String phoneNumber;

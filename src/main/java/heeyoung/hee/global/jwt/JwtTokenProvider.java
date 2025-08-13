@@ -89,7 +89,7 @@ public class JwtTokenProvider {
     // jwt 토큰 유효성 검증 메서드
     public boolean validateToken(String accessToken) {
         if (accessToken == null)
-            throw new JwtException("access_token is null");
+            return false;
 
         try {
             Jwts.parserBuilder()

@@ -56,6 +56,7 @@ public class Assignment {
         this.link = link;
         this.createdAt = createdAt;
         this.user = user;
+        this.recommendations = new ArrayList<>();
     }
 
     public static Assignment create (String title, String content, String link, String createdAt, User user) {

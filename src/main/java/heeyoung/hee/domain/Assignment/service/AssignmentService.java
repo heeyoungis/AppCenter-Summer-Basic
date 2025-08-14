@@ -50,7 +50,7 @@ public class AssignmentService {
     }
 
     // 과제 수정
-    @Transactional(readOnly = true)
+    @Transactional
     public AssignmentResponseDto updateAssignment(User user, AssignmentUpdateDTO dto, Long assignmentId) {
 
         Assignment assignment = assignmentRepository.findById(assignmentId)

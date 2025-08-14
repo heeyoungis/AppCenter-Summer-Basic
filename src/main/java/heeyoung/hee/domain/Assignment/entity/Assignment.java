@@ -1,5 +1,6 @@
 package heeyoung.hee.domain.Assignment.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import heeyoung.hee.domain.Recommendation.entity.Recommendation;
 import heeyoung.hee.domain.User.entity.User;
 import jakarta.persistence.*;
@@ -42,7 +43,8 @@ public class Assignment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Recommendation> recommendations = new ArrayList<>();
 
     @Builder

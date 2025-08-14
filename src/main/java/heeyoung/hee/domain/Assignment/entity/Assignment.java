@@ -1,5 +1,6 @@
 package heeyoung.hee.domain.Assignment.entity;
 
+import heeyoung.hee.domain.Recommendation.entity.Recommendation;
 import heeyoung.hee.domain.User.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -7,6 +8,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -30,10 +34,16 @@ public class Assignment {
     @Column(nullable = false)
     private String createdAt;
 
+    @Column(nullable = false)
+    private Integer recommendation;
+
     // FK 설정
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL)
+    private List<Recommendation> recommendations = new ArrayList<>();
 
     @Builder
     private Assignment(String title, String content, String link, String createdAt, User user) {
@@ -41,7 +51,6 @@ public class Assignment {
         this.content = content;
         this.link = link;
         this.createdAt = createdAt;
-        this.user = user;
     }
 
     public static Assignment create (String title, String content, String link, String createdAt, User user) {

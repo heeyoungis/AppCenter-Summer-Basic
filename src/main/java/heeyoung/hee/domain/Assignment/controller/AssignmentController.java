@@ -36,19 +36,7 @@ public class AssignmentController implements AssignmentApiSpecification {
             @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(name = "sort", required = false) String options) {
 
-        if (options != null) {
-            if (options.equalsIgnoreCase("recommendation")) {
-                pageable = PageRequest.of(
-                        pageable.getPageNumber(),
-                        pageable.getPageSize(),
-                        Sort.by(Sort.Direction.DESC, "recommendation")
-                );
-            } else if (!options.equalsIgnoreCase("createdAt")) {
-                throw new RestApiException(ErrorCode.INVALID_SORT_OPTION);
-            }
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(assignmentService.findAllAssignments(pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(assignmentService.findAllAssignments(options, pageable));
     }
 
     // 과제 제출

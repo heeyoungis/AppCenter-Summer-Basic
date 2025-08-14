@@ -11,6 +11,7 @@ import heeyoung.hee.global.exception.ErrorCode;
 import heeyoung.hee.global.exception.RestApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class RecommendationService {
     private final AssignmentRepository assignmentRepository;
 
     // 과제 추천 추가
+    @Transactional
     public RecommendationResponseDto doRecommendation(User user, Long assignmentId) {
 
         // 과제 등록
@@ -37,6 +39,7 @@ public class RecommendationService {
     }
 
     // 과제 추천 삭제
+    @Transactional
     public void deleteRecommendation(User user, Long assignmentId) {
 
         Recommendation recommendation = recommendationRepository.findByUserIdAndAssignmentId(user.getId(),assignmentId)

@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     // 회원가입
+    @Transactional
     public User signUp(UserCreateDTO dto) {
 
         // 이메일 중복 검사
@@ -48,6 +50,7 @@ public class AuthService {
     }
 
     // 로그인
+    @Transactional
     public TokenResponseDto login(UserLoginDTO dto) {
         try {
             // Login ID/PW 기반으로 AuthenticationToken 생성

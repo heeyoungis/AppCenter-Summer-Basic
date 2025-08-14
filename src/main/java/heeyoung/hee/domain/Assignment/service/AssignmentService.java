@@ -15,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -72,7 +74,7 @@ public class AssignmentService {
     }
 
     // 과제 삭제
-    @Transactional(readOnly = true)
+    @Transactional
     public void deleteAssignment(User user, Long assignmentId) {
 
         Assignment assignment = assignmentRepository.findById(assignmentId)
@@ -88,9 +90,34 @@ public class AssignmentService {
 
     // 과제 전체 조회
     @Transactional(readOnly = true)
-    public List<AssignmentResponseDto> findAllAssignments(Pageable pageable) {
+    public List<AssignmentResponseDto> findAllAssignments(String option, Pageable pageable) {
 
-        List<Assignment> assignments = assignmentRepository.findAll(pageable).getContent();
+        List<Assignment> assignments = new ArrayList<>();
+
+        if (option != null) {
+            // 추천순
+            if (option.equalsIgnoreCase("recommendation")) {
+                List<Assignment> allAssignments = assignmentRepository.findAll();
+                allAssignments.sort(
+                        Comparator.comparingInt((Assignment a) -> a.getRecommendations().size())
+                                .reversed()
+                );
+                // 수동 페이징
+                int start = pageable.getPageNumber() * pageable.getPageSize();
+                int end = Math.min(start + pageable.getPageSize(), allAssignments.size());
+                assignments = allAssignments.subList(start, end);
+
+            }
+            // 최신순
+            else if (option.equalsIgnoreCase("createdAt")) {
+                assignments = assignmentRepository.findAll(pageable).getContent();
+            }
+            else {
+                throw new RestApiException(ErrorCode.INVALID_SORT_OPTION);
+            }
+        } else {
+            assignments = assignmentRepository.findAll(pageable).getContent();
+        }
 
         return assignments.stream()
                 .map(AssignmentResponseDto::from)

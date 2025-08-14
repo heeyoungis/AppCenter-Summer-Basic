@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.coyote.http11.Constants.a;
+
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -53,16 +55,19 @@ public class Assignment {
         this.content = content;
         this.link = link;
         this.createdAt = createdAt;
+        this.user = user;
     }
 
     public static Assignment create (String title, String content, String link, String createdAt, User user) {
-        return Assignment.builder()
+        Assignment assignment = Assignment.builder()
                 .title(title)
                 .content(content)
                 .link(link)
                 .createdAt(createdAt)
                 .user(user)
                 .build();
+        assignment.recommendations = new ArrayList<>();
+        return assignment;
     }
 
     public Assignment update (String title, String content, String link) {

@@ -2,6 +2,7 @@ package heeyoung.hee.domain.User.controller;
 
 import heeyoung.hee.domain.User.dto.request.UserCreateDTO;
 import heeyoung.hee.domain.User.dto.request.UserLoginDTO;
+import heeyoung.hee.domain.User.dto.response.UserInfoResponseDto;
 import heeyoung.hee.domain.User.dto.response.UserResponseDTO;
 import heeyoung.hee.domain.User.entity.User;
 import heeyoung.hee.domain.User.repository.UserRepository;
@@ -40,9 +41,9 @@ public class UserController implements UserApiSpecification {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserResponseDTO> getMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        UserResponseDTO userResponseDTO = userService.getUserInfo(userDetails);
-        return ResponseEntity.ok(userResponseDTO);
+    public ResponseEntity<UserInfoResponseDto> getMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        UserInfoResponseDto userInfoResponseDto = userService.getUserInfo(userDetails);
+        return ResponseEntity.ok(userInfoResponseDto);
     }
 
     @PostMapping("/sign-up")

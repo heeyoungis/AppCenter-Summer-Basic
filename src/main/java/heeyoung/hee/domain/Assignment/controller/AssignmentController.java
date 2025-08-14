@@ -4,9 +4,18 @@ import heeyoung.hee.domain.Assignment.dto.request.AssignmentSubmitDTO;
 import heeyoung.hee.domain.Assignment.dto.request.AssignmentUpdateDTO;
 import heeyoung.hee.domain.Assignment.dto.response.AssignmentResponseDto;
 import heeyoung.hee.domain.Assignment.service.AssignmentService;
+import heeyoung.hee.domain.Recommendation.dto.response.RecommendationResponseDto;
+import heeyoung.hee.domain.Recommendation.service.RecommendationService;
 import heeyoung.hee.domain.User.entity.User;
 import heeyoung.hee.domain.User.service.UserDetailsImpl;
+import heeyoung.hee.global.exception.ErrorCode;
+import heeyoung.hee.global.exception.RestApiException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/assignment/")
+@RequestMapping("/api/assignments")
 @RequiredArgsConstructor
 public class AssignmentController implements AssignmentApiSpecification {
 
@@ -23,17 +32,28 @@ public class AssignmentController implements AssignmentApiSpecification {
 
     // 과제 전체 조회
     @GetMapping
-    public ResponseEntity<List<AssignmentResponseDto>> getAll(@RequestParam(name = "sort", required = false) String options) {
-        String[] sortParams = {"createdAt", "asc"}; // 기본값 설정
+    public ResponseEntity<List<AssignmentResponseDto>> getAll(
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(name = "sort", required = false) String options) {
+
         if (options != null) {
-            sortParams = options.split(",");
+            if (options.equalsIgnoreCase("recommendation")) {
+                pageable = PageRequest.of(
+                        pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        Sort.by(Sort.Direction.DESC, "recommendation")
+                );
+            } else if (!options.equalsIgnoreCase("createdAt")) {
+                throw new RestApiException(ErrorCode.INVALID_SORT_OPTION);
+            }
         }
-        return ResponseEntity.status(HttpStatus.OK).body(assignmentService.findAllAssignments(sortParams[0], sortParams[1]));
+
+        return ResponseEntity.status(HttpStatus.OK).body(assignmentService.findAllAssignments(pageable));
     }
 
     // 과제 제출
     @PostMapping
-    public ResponseEntity<AssignmentResponseDto> submitAssignment(@RequestBody AssignmentSubmitDTO assignmentSubmitDTO,
+    public ResponseEntity<AssignmentResponseDto> submitAssignment(@Valid @RequestBody AssignmentSubmitDTO assignmentSubmitDTO,
                                                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         AssignmentResponseDto createdAssignment = assignmentService.submitAssignment(assignmentSubmitDTO, user.getId());
@@ -42,17 +62,40 @@ public class AssignmentController implements AssignmentApiSpecification {
 
     // 과제 수정
     @PatchMapping("/{assignmentId}")
-    public ResponseEntity<AssignmentResponseDto> updateAssignment(@RequestBody AssignmentUpdateDTO assignmentUpdateDTO,
+    public ResponseEntity<AssignmentResponseDto> updateAssignment(@Valid @RequestBody AssignmentUpdateDTO assignmentUpdateDTO,
+                                                                  @AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                   @PathVariable Long assignmentId) {
-        AssignmentResponseDto updatedAssignment = assignmentService.updateAssignment(assignmentUpdateDTO, assignmentId);
+        User user = userDetails.getUser();
+        AssignmentResponseDto updatedAssignment = assignmentService.updateAssignment(user, assignmentUpdateDTO, assignmentId);
         return ResponseEntity.status(HttpStatus.OK).body(updatedAssignment);
     }
 
     // 과제 삭제
-    @PostMapping("/{assignmentId}")
-    public ResponseEntity<String> deleteAssignment(@PathVariable Long assignmentId) {
-        assignmentService.deleteAssignment(assignmentId);
+    @DeleteMapping("/{assignmentId}")
+    public ResponseEntity<String> deleteAssignment(@PathVariable Long assignmentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        assignmentService.deleteAssignment(user,assignmentId);
         return ResponseEntity.status(HttpStatus.OK).body("과제가 삭제되었습니다.");
+    }
+
+    private final RecommendationService recommendationService;
+
+    // 추천
+    @PostMapping("/{assignmentId}/recommendation")
+    public ResponseEntity<RecommendationResponseDto> doRecommendation(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                      @PathVariable("assignmentId") Long assignmentId) {
+        User user = userDetails.getUser();
+        RecommendationResponseDto recommendationResponseDto = recommendationService.doRecommendation(user, assignmentId);
+        return ResponseEntity.status(HttpStatus.OK).body(recommendationResponseDto);
+    }
+
+    // 추천 취소
+    @DeleteMapping("/{assignmentId}/recommendation")
+    public ResponseEntity<String> deleteRecommendation(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                       @PathVariable("assignmentId") Long assignmentId) {
+        User user = userDetails.getUser();
+        recommendationService.deleteRecommendation(user, assignmentId);
+        return ResponseEntity.status(HttpStatus.OK).body("추천이 취소되었습니다.");
     }
 
 }

@@ -30,6 +30,7 @@ public class UserCreateDTO {
     @NotNull(message = "필수 입력 값입니다.")
     private Double gen;
 
+
     private String phoneNumber;
 
 }

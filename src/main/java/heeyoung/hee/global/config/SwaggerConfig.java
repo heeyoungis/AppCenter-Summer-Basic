@@ -1,14 +1,15 @@
 package heeyoung.hee.global.config;
 
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import org.springdoc.core.service.SecurityService;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import io.swagger.v3.oas.models.info.Info;
 
+import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
@@ -20,15 +21,20 @@ public class SwaggerConfig {
         Components components = new Components()
                 .addSecuritySchemes("BearerAuth",
                         new SecurityScheme()
-                        .name("BearerAuth")
-                        .type(SecurityScheme.Type.HTTP)
-                        .scheme("bearer")
-                        .bearerFormat("JWT"));
+                                .name("BearerAuth")
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT"));
+
+        Server prodServer = new Server();
+        prodServer.setUrl("https://heeyoung.inuappcenter.kr");
+        prodServer.setDescription("Production Server");
 
         return new OpenAPI()
                 .info(apiInfo())
                 .addSecurityItem(securityRequirement)
-                .components(components);
+                .components(components)
+                .servers(List.of(prodServer));
     }
 
     private Info apiInfo() {

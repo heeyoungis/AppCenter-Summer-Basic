@@ -3,6 +3,7 @@ package heeyoung.hee.domain.User.controller;
 import heeyoung.hee.domain.Assignment.dto.response.AssignmentResponseDto;
 import heeyoung.hee.domain.User.dto.request.UserCreateDTO;
 import heeyoung.hee.domain.User.dto.request.UserLoginDTO;
+import heeyoung.hee.domain.User.dto.response.UserInfoResponseDto;
 import heeyoung.hee.domain.User.dto.response.UserResponseDTO;
 import heeyoung.hee.domain.User.service.UserDetailsImpl;
 import heeyoung.hee.global.exception.ErrorCode;
@@ -86,7 +87,7 @@ public interface UserApiSpecification {
                             })
             )
     })
-    public ResponseEntity<UserResponseDTO> getMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails);
+    public ResponseEntity<UserInfoResponseDto> getMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails);
 
     @Operation(summary = "유저 전체 조회", description = "모든 유저 조회 api")
     @ApiResponses(value = {

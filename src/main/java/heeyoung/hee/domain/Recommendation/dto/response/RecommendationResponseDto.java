@@ -3,15 +3,21 @@ package heeyoung.hee.domain.Recommendation.dto.response;
 import heeyoung.hee.domain.Assignment.entity.Assignment;
 import heeyoung.hee.domain.User.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@Builder
+@RequiredArgsConstructor
 public class RecommendationResponseDto {
-    private Long userID;
-    private Long taskID;
+    private final Long userID;
+    private final Long taskID;
 
     public static RecommendationResponseDto from(User user, Assignment assignment) {
-        return new RecommendationResponseDto(user.getId(), assignment.getId());
+        return RecommendationResponseDto.builder()
+                .userID(user.getId())
+                .taskID(assignment.getId())
+                .build();
     }
 }

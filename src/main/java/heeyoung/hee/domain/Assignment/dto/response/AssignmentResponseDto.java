@@ -1,26 +1,20 @@
 package heeyoung.hee.domain.Assignment.dto.response;
 
 import heeyoung.hee.domain.Assignment.entity.Assignment;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
 @Builder
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AssignmentResponseDto {
 
-    @NotEmpty
-    private String title;
+    private final String title;
 
-    @NotEmpty
-    private String content;
+    private final String content;
 
-    @NotEmpty
-    private String link;
+    private final String link;
 
-    private String createdAt;
+    private final String createdAt;
 
     public static AssignmentResponseDto from(Assignment assignment) {
         return AssignmentResponseDto.builder()

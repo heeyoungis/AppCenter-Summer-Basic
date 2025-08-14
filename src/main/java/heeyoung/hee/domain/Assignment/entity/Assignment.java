@@ -50,6 +50,7 @@ public class Assignment {
                 .content(content)
                 .link(link)
                 .createdAt(createdAt)
+                .user(user)
                 .build();
     }
 

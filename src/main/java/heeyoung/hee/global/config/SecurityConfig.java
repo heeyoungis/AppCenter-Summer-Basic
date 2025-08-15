@@ -21,6 +21,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static org.springframework.security.authorization.SingleResultAuthorizationManager.permitAll;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -34,14 +36,21 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 // URL 접근 권한 설정
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(
-                                "/api/users/auth/**",
-                                "/",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/webjars/**").permitAll()
-                        .anyRequest().authenticated()
+                            .requestMatchers(
+                                    "/api/users/",
+                                    "/api/users/server",
+                                    "/api/users/web",
+                                    "/api/users/aos",
+                                    "/api/users/ios",
+                                    "/api/users/Design",
+                                    "/api/auth/sign-up",
+                                    "/api/auth/sign-in",
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/swagger-resources/**",
+                                    "/webjars/**"
+                                    ).permitAll()
+                    .anyRequest().authenticated()
                 )
 
                 // 세션 관리 설정

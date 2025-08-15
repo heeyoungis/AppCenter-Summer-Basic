@@ -26,10 +26,14 @@ public class jwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     private final List<String> whiteListUri = Arrays.asList(
-            "/api/users/sign-up",
-            "/api/users/sign-in",
-            "/api/users/**",
-            "/",
+            "/api/users/",
+            "/api/users/server",
+            "/api/users/web",
+            "/api/users/aos",
+            "/api/users/ios",
+            "/api/users/Design",
+            "/api/auth/sign-up",
+            "/api/auth/sign-in",
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",

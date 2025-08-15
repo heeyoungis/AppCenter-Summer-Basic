@@ -3,6 +3,7 @@ package heeyoung.hee.domain.User.service;
 import heeyoung.hee.domain.Assignment.dto.response.AssignmentResponseDto;
 import heeyoung.hee.domain.Assignment.entity.Assignment;
 import heeyoung.hee.domain.Assignment.repository.AssignmentRepository;
+import heeyoung.hee.domain.User.dto.request.UserUpdateDto;
 import heeyoung.hee.domain.User.dto.response.UserInfoResponseDto;
 import heeyoung.hee.domain.User.dto.response.UserResponseDTO;
 import heeyoung.hee.domain.User.entity.User;
@@ -36,7 +37,7 @@ public class UserService {
     public UserInfoResponseDto getUserInfo(UserDetailsImpl userDetails) {
 
         // 유저 조회
-        User user = userRepository.findByEmail(userDetails.getUsername())
+        User user = userRepository.findById(userDetails.getUser().getId())
                 .orElseThrow(() -> new RestApiException(ErrorCode.USER_NOT_FOUND));
 
         // 과제 조회
@@ -58,9 +59,25 @@ public class UserService {
                 .toList();
     }
 
-//    // 유저 정보 수정
-//    @Transactional
-//    public UserResponseDTO updateUser(UserDetailsImpl userDetails) {
-//
-//    }
+    // 유저 정보 수정
+    @Transactional
+    public UserResponseDTO updateUser(UserUpdateDto dto, UserDetailsImpl userDetails) {
+
+        // 유저 조회
+        User user = userRepository.findById(userDetails.getUser().getId())
+                .orElseThrow(() -> new RestApiException(ErrorCode.USER_NOT_FOUND));
+
+        User updatedUser = user.update(
+                dto.getEmail(),
+                dto.getPassword(),
+                dto.getName(),
+                dto.getPart(),
+                dto.getGen(),
+                dto.getPhoneNumber());
+
+        userRepository.save(updatedUser);
+
+        return UserResponseDTO.from(updatedUser);
+
+    }
 }

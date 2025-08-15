@@ -37,7 +37,7 @@ public class SecurityConfig {
                 // URL 접근 권한 설정
                 .authorizeHttpRequests((authorize) -> authorize
                             .requestMatchers(
-                                    "/api/users/",
+                                    "/api/users",
                                     "/api/users/server",
                                     "/api/users/web",
                                     "/api/users/aos",

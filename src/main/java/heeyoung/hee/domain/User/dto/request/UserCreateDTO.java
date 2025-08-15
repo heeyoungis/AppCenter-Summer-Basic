@@ -37,6 +37,8 @@ public class UserCreateDTO {
     private Double gen;
 
     @Schema(example = "010-3232-1212")
+    @NotBlank
+    @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = " - 을 포함하여 입력해주세요.")
     private String phoneNumber;
 
 }

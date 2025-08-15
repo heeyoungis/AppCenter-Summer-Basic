@@ -26,5 +26,7 @@ public class UserUpdateDto {
     @NotNull(message = "필수 입력 값입니다.")
     private Double gen;
 
+    @NotBlank
+    @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = " - 을 포함하여 입력해주세요.")
     private String phoneNumber;
 }

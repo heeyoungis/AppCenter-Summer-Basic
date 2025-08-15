@@ -56,4 +56,14 @@ public class User {
                 .phoneNumber(phoneNumber)
                 .build();
     }
+
+    public User update(String email, String password, String name, String part, Double gen, String phoneNumber) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.part = part;
+        this.gen = gen;
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
 }

@@ -2,6 +2,7 @@ package heeyoung.hee.domain.User.controller;
 
 import heeyoung.hee.domain.User.dto.request.UserCreateDTO;
 import heeyoung.hee.domain.User.dto.request.UserLoginDTO;
+import heeyoung.hee.domain.User.dto.request.UserUpdateDto;
 import heeyoung.hee.domain.User.dto.response.UserInfoResponseDto;
 import heeyoung.hee.domain.User.dto.response.UserResponseDTO;
 import heeyoung.hee.domain.User.entity.User;
@@ -56,5 +57,12 @@ public class UserController implements UserApiSpecification {
     public ResponseEntity<TokenResponseDto> login(@RequestBody UserLoginDTO userLoginDTO) {
         TokenResponseDto loginUserToken = authService.login(userLoginDTO);
         return ResponseEntity.ok(loginUserToken);
+    }
+
+    @PatchMapping("/me") // 앤드포인트 어케하지?
+    public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto,
+                                                    @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        UserResponseDTO userResponseDto = userService.updateUser(userUpdateDto, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
     }
 }

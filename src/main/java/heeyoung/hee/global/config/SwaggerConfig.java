@@ -31,7 +31,7 @@ public class SwaggerConfig {
         prodServer.setDescription("Production Server");
 
         Server devServer = new Server();
-        prodServer.setUrl("http://localhost:8080");
+        devServer.setUrl("http://localhost:8080");
         devServer.setDescription("Dev Server");
 
         return new OpenAPI()

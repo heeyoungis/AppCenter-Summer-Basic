@@ -3,6 +3,7 @@ package heeyoung.hee.domain.User.controller;
 import heeyoung.hee.domain.Assignment.dto.response.AssignmentResponseDto;
 import heeyoung.hee.domain.User.dto.request.UserCreateDTO;
 import heeyoung.hee.domain.User.dto.request.UserLoginDTO;
+import heeyoung.hee.domain.User.dto.request.UserUpdateDto;
 import heeyoung.hee.domain.User.dto.response.UserInfoResponseDto;
 import heeyoung.hee.domain.User.dto.response.UserResponseDTO;
 import heeyoung.hee.domain.User.service.UserDetailsImpl;
@@ -88,6 +89,23 @@ public interface UserApiSpecification {
             )
     })
     public ResponseEntity<UserInfoResponseDto> getMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails);
+
+    @Operation(summary = "유저 정보 수정", description = "유저 정보 수정 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "✅유저 정보 수정 성공"),
+            @ApiResponse(responseCode = "404", description = "❌유저 정보 수정 실패",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorCode.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "일치하는 유저 없음",
+                                            value = "{\"error\": \"404\", \"message\": \"유저 정보를 찾을 수 없습니다.\"}"
+                                    )
+                            })
+            )
+    })
+    public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto,
+                                                      @AuthenticationPrincipal UserDetailsImpl userDetails);
 
     @Operation(summary = "유저 전체 조회", description = "모든 유저 조회 api")
     @ApiResponses(value = {

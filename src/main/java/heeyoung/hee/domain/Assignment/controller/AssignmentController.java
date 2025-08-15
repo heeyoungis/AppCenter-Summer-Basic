@@ -46,7 +46,7 @@ public class AssignmentController implements AssignmentApiSpecification {
     }
 
     // 과제 수정
-    @PatchMapping("/{assignmentId}")
+    @PutMapping("/{assignmentId}")
     public ResponseEntity<AssignmentResponseDto> updateAssignment(@Valid @RequestBody AssignmentUpdateDTO assignmentUpdateDTO,
                                                                   @AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                   @PathVariable Long assignmentId) {

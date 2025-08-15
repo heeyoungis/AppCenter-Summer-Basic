@@ -22,6 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final AssignmentRepository assignmentRepository;
 
+    // 유저 전체 조회
     @Transactional(readOnly = true)
     public List<UserResponseDTO> findAll() {
         List<User> users = userRepository.findAll();
@@ -30,6 +31,7 @@ public class UserService {
                 .toList();
     }
 
+    // 마이페이지 조회
     @Transactional(readOnly = true)
     public UserInfoResponseDto getUserInfo(UserDetailsImpl userDetails) {
 
@@ -47,6 +49,7 @@ public class UserService {
         return UserInfoResponseDto.from(user, assignmentResponseDto);
     }
 
+    // 파트별 조회
     @Transactional(readOnly = true)
     public List<UserResponseDTO> findByPart(String part) {
         List<User> users = userRepository.findByPart(part);
@@ -54,4 +57,10 @@ public class UserService {
                 .map(UserResponseDTO::from)
                 .toList();
     }
+
+//    // 유저 정보 수정
+//    @Transactional
+//    public UserResponseDTO updateUser(UserDetailsImpl userDetails) {
+//
+//    }
 }

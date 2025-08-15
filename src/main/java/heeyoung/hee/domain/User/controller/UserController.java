@@ -46,13 +46,13 @@ public class UserController implements UserApiSpecification {
         return ResponseEntity.ok(userInfoResponseDto);
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/auth/sign-up")
     public ResponseEntity<String> createUser(@Valid @RequestBody UserCreateDTO userCreateDTO) {
         User createdUser = authService.signUp(userCreateDTO);
         return ResponseEntity.ok("회원가입 성공");
     }
 
-    @PostMapping("/sign-in")
+    @PostMapping("/auth/sign-in")
     public ResponseEntity<TokenResponseDto> login(@RequestBody UserLoginDTO userLoginDTO) {
         TokenResponseDto loginUserToken = authService.login(userLoginDTO);
         return ResponseEntity.ok(loginUserToken);

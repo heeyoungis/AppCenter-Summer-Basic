@@ -20,3 +20,4 @@ jwt:
   secret: aldjf2@#$239klasd@#$*@#Lrfkla@#23
   access-token-expiration: 1800000
   refresh-token-expiration: 604800000
+

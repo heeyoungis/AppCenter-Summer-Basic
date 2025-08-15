@@ -9,15 +9,39 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class jwtAuthenticationFilter extends OncePerRequestFilter {
 
     // jwt 토큰을 처리하기 위한 JwtTokenProvider 객체
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
+
+
+    private final List<String> whiteListUri = Arrays.asList(
+            "/api/users/sign-up",
+            "/api/users/sign-in",
+            "/api/users/**",
+            "/",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/webjars/**"
+    );
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return whiteListUri.stream()
+                .anyMatch(pattern -> pathMatcher.match(pattern, path));
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain)

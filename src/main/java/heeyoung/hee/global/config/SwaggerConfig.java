@@ -30,11 +30,15 @@ public class SwaggerConfig {
         prodServer.setUrl("https://heeyoung.inuappcenter.kr");
         prodServer.setDescription("Production Server");
 
+        Server devServer = new Server();
+        prodServer.setUrl("http://localhost:8080");
+        prodServer.setDescription("Dev Server");
+
         return new OpenAPI()
                 .info(apiInfo())
                 .addSecurityItem(securityRequirement)
                 .components(components)
-                .servers(List.of(prodServer));
+                .servers(List.of(prodServer,devServer));
     }
 
     private Info apiInfo() {

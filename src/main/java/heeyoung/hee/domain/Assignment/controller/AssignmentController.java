@@ -8,11 +8,8 @@ import heeyoung.hee.domain.Recommendation.dto.response.RecommendationResponseDto
 import heeyoung.hee.domain.Recommendation.service.RecommendationService;
 import heeyoung.hee.domain.User.entity.User;
 import heeyoung.hee.domain.User.service.UserDetailsImpl;
-import heeyoung.hee.global.exception.ErrorCode;
-import heeyoung.hee.global.exception.RestApiException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;

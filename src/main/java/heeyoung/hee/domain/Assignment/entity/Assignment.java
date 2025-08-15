@@ -37,9 +37,6 @@ public class Assignment {
     @Column(nullable = false)
     private String createdAt;
 
-    @Column(nullable = false)
-    private Integer recommendation;
-
     // FK 설정
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -77,5 +74,4 @@ public class Assignment {
         this.link = link;
         return this;
     }
-
 }

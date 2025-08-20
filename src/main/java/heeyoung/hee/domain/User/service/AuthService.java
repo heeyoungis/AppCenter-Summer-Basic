@@ -68,4 +68,12 @@ public class AuthService {
             throw new RestApiException(ErrorCode.USER_NOT_FOUND);
         }
     }
+
+    // 로그아웃
+    @Transactional
+    public void logout(UserDetailsImpl userDetails) {
+
+        User user = userRepository.findById(userDetails.getUser().getId())
+                .orElseThrow(() -> new RestApiException(ErrorCode.USER_NOT_FOUND));
+    }
 }

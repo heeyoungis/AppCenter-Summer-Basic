@@ -59,10 +59,22 @@ public class UserController implements UserApiSpecification {
         return ResponseEntity.ok(loginUserToken);
     }
 
+    @PostMapping("/auth/sign-out")
+    public ResponseEntity<String> logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        authService.logout(userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body("로그아웃 되었습니다.");
+    }
+
     @PatchMapping("/me") // 앤드포인트 어케하지?
     public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto,
                                                     @AuthenticationPrincipal UserDetailsImpl userDetails) {
         UserResponseDTO userResponseDto = userService.updateUser(userUpdateDto, userDetails);
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<String> deleteUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        userService.deleteUser(userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body("탈퇴 되었습니다.");
     }
 }

@@ -83,6 +83,17 @@ public class UserService {
         userRepository.save(updatedUser);
 
         return UserResponseDTO.from(updatedUser);
-
     }
+
+    // 유저 삭제
+    @Transactional
+    public void deleteUser(UserDetailsImpl userDetails) {
+
+        // 유저 조회
+        User user = userRepository.findById(userDetails.getUser().getId())
+                .orElseThrow(() -> new RestApiException(ErrorCode.USER_NOT_FOUND));
+
+        userRepository.delete(user);
+    }
+
 }

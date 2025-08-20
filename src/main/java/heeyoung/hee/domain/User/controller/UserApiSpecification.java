@@ -74,6 +74,23 @@ public interface UserApiSpecification {
     })
     public ResponseEntity<TokenResponseDto> login(@RequestBody UserLoginDTO userLoginDTO);
 
+
+    @Operation(summary = "로그아웃", description = "로그아웃 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "✅로그아웃 성공"),
+            @ApiResponse(responseCode = "404", description = "❌로그아웃 실패",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorCode.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "일치하는 유저 없음",
+                                            value = "{\"error\": \"404\", \"message\": \"유저 정보를 찾을 수 없습니다.\"}"
+                                    )
+                            })
+            )
+    })
+    public ResponseEntity<String> logout(@AuthenticationPrincipal UserDetailsImpl userDetails);
+
     @Operation(summary = "유저 조회", description = "마이 페이지 조회 api")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "✅유저 조회 성공"),
@@ -106,6 +123,22 @@ public interface UserApiSpecification {
     })
     public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto,
                                                       @AuthenticationPrincipal UserDetailsImpl userDetails);
+
+    @Operation(summary = "유저 탈퇴", description = "유저 탈퇴 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "✅유저 탈퇴 성공"),
+            @ApiResponse(responseCode = "404", description = "❌유저 탈퇴 실패",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorCode.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "일치하는 유저 없음",
+                                            value = "{\"error\": \"404\", \"message\": \"유저 정보를 찾을 수 없습니다.\"}"
+                                    )
+                            })
+            )
+    })
+    public ResponseEntity<String> deleteUser(@AuthenticationPrincipal UserDetailsImpl userDetails);
 
     @Operation(summary = "유저 전체 조회", description = "모든 유저 조회 api")
     @ApiResponses(value = {

@@ -13,6 +13,7 @@ import heeyoung.hee.global.exception.RestApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final AssignmentRepository assignmentRepository;
+    private final  PasswordEncoder passwordEncoder;
 
     // 유저 전체 조회
     @Transactional(readOnly = true)
@@ -67,9 +69,12 @@ public class UserService {
         User user = userRepository.findById(userDetails.getUser().getId())
                 .orElseThrow(() -> new RestApiException(ErrorCode.USER_NOT_FOUND));
 
+        // 비밀번호 암호화
+        String password = passwordEncoder.encode(dto.getPassword());
+
         User updatedUser = user.update(
                 dto.getEmail(),
-                dto.getPassword(),
+                password,
                 dto.getName(),
                 dto.getPart(),
                 dto.getGen(),

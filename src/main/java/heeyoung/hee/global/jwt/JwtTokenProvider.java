@@ -1,7 +1,11 @@
 package heeyoung.hee.global.jwt;
 
+import heeyoung.hee.domain.User.entity.User;
+import heeyoung.hee.domain.User.repository.UserRepository;
 import heeyoung.hee.domain.User.service.UserDetailsImpl;
 import heeyoung.hee.domain.User.service.UserDetailsServiceImpl;
+import heeyoung.hee.global.exception.ErrorCode;
+import heeyoung.hee.global.exception.RestApiException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +26,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
+    private final UserRepository userRepository;
     @Value("${jwt.access-token-expiration}")
     private Long accessTokenExpiredTime;
 
@@ -31,19 +36,20 @@ public class JwtTokenProvider {
     private final Key key; // JWT 서명을 위한 Key 객체 선언
     private final UserDetailsServiceImpl userDetailsService;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secret, UserDetailsServiceImpl userDetailsService){
+    public JwtTokenProvider(@Value("${jwt.secret}") String secret, UserDetailsServiceImpl userDetailsService, UserRepository userRepository){
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
     }
 
     // jwt 생성
-    public TokenResponseDto generateToken(String email) {
+    public TokenResponseDto generateToken(User user) {
         String authorities = "USER";
 
         Date now = new Date();
 
         String accessToken = Jwts.builder()
-                .setSubject(email)
+                .setSubject(user.getId().toString())
                 .claim("auth", authorities)
                 .setIssuedAt(now)
                 .setExpiration(new Date((now.getTime() + accessTokenExpiredTime)))
@@ -51,7 +57,7 @@ public class JwtTokenProvider {
                 .compact();
 
         String refreshToken = Jwts.builder()
-                .setSubject(email)
+                .setSubject(user.getId().toString())
                 .setIssuedAt(now)
                 .setExpiration(new Date((now.getTime() + accessTokenExpiredTime)))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -73,8 +79,13 @@ public class JwtTokenProvider {
                 .map(SimpleGrantedAuthority::new)
                 .toList();
 
+        Long id = Long.parseLong(claims.getSubject());
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(ErrorCode.USER_NOT_FOUND));
+
         // UserDetails 객체 생성 후 Authentication 리턴
-        UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
+        UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(user.getEmail());
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 

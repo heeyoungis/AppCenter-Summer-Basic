@@ -72,17 +72,16 @@ public class UserService {
         // 비밀번호 암호화
         String password = passwordEncoder.encode(dto.getPassword());
 
-        User updatedUser = user.update(
+        user.update(
                 dto.getEmail(),
                 password,
                 dto.getName(),
                 dto.getPart(),
                 dto.getGen(),
-                dto.getPhoneNumber());
+                dto.getPhoneNumber()
+        );
 
-        userRepository.save(updatedUser);
-
-        return UserResponseDTO.from(updatedUser);
+        return UserResponseDTO.from(user);
     }
 
     // 유저 삭제

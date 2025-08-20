@@ -59,8 +59,12 @@ public class AuthService {
             // 인증 객체 생성되면서 loadUserByUsername 메서드가 실행됨
             Authentication auth = authenticationManagerBuilder.getObject().authenticate(authToken);
 
+            // Authentication 에서 UserDetailsImpl 꺼내기
+            UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
+            User user = userDetails.getUser();
+
             // 인증 정보 기반 jwt 토큰 생성
-            return jwtTokenProvider.generateToken(dto.getEmail());
+            return jwtTokenProvider.generateToken(user);
 
         } catch (BadCredentialsException e) {
             throw new RestApiException(ErrorCode.INVALID_PASSWORD);

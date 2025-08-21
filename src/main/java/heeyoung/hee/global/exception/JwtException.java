@@ -1,4 +1,4 @@
-package heeyoung.hee.global.jwt.filter;
+package heeyoung.hee.global.exception;
 
 public class JwtException extends RuntimeException {
     private final int statusCode;

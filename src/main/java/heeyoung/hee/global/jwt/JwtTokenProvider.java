@@ -5,10 +5,10 @@ import heeyoung.hee.domain.User.repository.UserRepository;
 import heeyoung.hee.domain.User.service.UserDetailsImpl;
 import heeyoung.hee.domain.User.service.UserDetailsServiceImpl;
 import heeyoung.hee.global.exception.ErrorCode;
+import heeyoung.hee.global.exception.JwtException;
 import heeyoung.hee.global.exception.RestApiException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -110,17 +110,14 @@ public class JwtTokenProvider {
                     .getBody();
             return true;
         } catch (ExpiredJwtException e) {
-            throw new JwtException("토큰이 만료되었습니다.");
+            throw new heeyoung.hee.global.exception.JwtException("토큰이 만료되었습니다.");
         } catch (MalformedJwtException e) {
-            throw new JwtException("토큰의 형식이 올바르지 않습니다.");
+            throw new heeyoung.hee.global.exception.JwtException("토큰의 형식이 올바르지 않습니다.");
         } catch (SignatureException | SecurityException e) {
-            throw new JwtException("토큰의 서명이 올바르지 않습니다.");
+            throw new heeyoung.hee.global.exception.JwtException("토큰의 서명이 올바르지 않습니다.");
         } catch (UnsupportedJwtException e) {
             throw new JwtException("토큰의 형식이 만료되었습니다.");
         }
     }
-
-
-
 
 }

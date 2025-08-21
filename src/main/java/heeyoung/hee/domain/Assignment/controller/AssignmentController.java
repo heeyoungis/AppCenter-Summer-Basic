@@ -26,6 +26,7 @@ import java.util.List;
 public class AssignmentController implements AssignmentApiSpecification {
 
     private final AssignmentService assignmentService;
+    private final RecommendationService recommendationService;
 
     // 과제 전체 조회
     @GetMapping
@@ -59,11 +60,9 @@ public class AssignmentController implements AssignmentApiSpecification {
     @DeleteMapping("/{assignmentId}")
     public ResponseEntity<String> deleteAssignment(@PathVariable Long assignmentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        assignmentService.deleteAssignment(user,assignmentId);
+        assignmentService.deleteAssignment(user, assignmentId);
         return ResponseEntity.status(HttpStatus.OK).body("과제가 삭제되었습니다.");
     }
-
-    private final RecommendationService recommendationService;
 
     // 추천
     @PostMapping("/{assignmentId}/recommendation")

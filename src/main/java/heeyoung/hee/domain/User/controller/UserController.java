@@ -72,7 +72,7 @@ public class UserController implements UserApiSpecification {
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
     }
 
-    @DeleteMapping("/me")
+    @DeleteMapping
     public ResponseEntity<String> deleteUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         userService.deleteUser(userDetails);
         return ResponseEntity.status(HttpStatus.OK).body("탈퇴 되었습니다.");

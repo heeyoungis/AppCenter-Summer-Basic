@@ -1,6 +1,6 @@
 package heeyoung.hee.global.jwt.filter;
 
-import heeyoung.hee.global.exception.JwtException;
+import heeyoung.hee.global.jwt.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

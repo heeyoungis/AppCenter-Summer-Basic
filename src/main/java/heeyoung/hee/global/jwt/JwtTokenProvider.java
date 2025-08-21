@@ -5,7 +5,6 @@ import heeyoung.hee.domain.User.repository.UserRepository;
 import heeyoung.hee.domain.User.service.UserDetailsImpl;
 import heeyoung.hee.domain.User.service.UserDetailsServiceImpl;
 import heeyoung.hee.global.exception.ErrorCode;
-import heeyoung.hee.global.exception.JwtException;
 import heeyoung.hee.global.exception.RestApiException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -16,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import io.jsonwebtoken.JwtException;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -110,11 +110,11 @@ public class JwtTokenProvider {
                     .getBody();
             return true;
         } catch (ExpiredJwtException e) {
-            throw new heeyoung.hee.global.exception.JwtException("토큰이 만료되었습니다.");
+            throw new JwtException("토큰이 만료되었습니다.");
         } catch (MalformedJwtException e) {
-            throw new heeyoung.hee.global.exception.JwtException("토큰의 형식이 올바르지 않습니다.");
+            throw new JwtException("토큰의 형식이 올바르지 않습니다.");
         } catch (SignatureException | SecurityException e) {
-            throw new heeyoung.hee.global.exception.JwtException("토큰의 서명이 올바르지 않습니다.");
+            throw new JwtException("토큰의 서명이 올바르지 않습니다.");
         } catch (UnsupportedJwtException e) {
             throw new JwtException("토큰의 형식이 만료되었습니다.");
         }

@@ -8,6 +8,8 @@ import lombok.*;
 @RequiredArgsConstructor
 public class AssignmentResponseDto {
 
+    private final Long id;
+
     private final String title;
 
     private final String content;
@@ -18,6 +20,7 @@ public class AssignmentResponseDto {
 
     public static AssignmentResponseDto from(Assignment assignment) {
         return AssignmentResponseDto.builder()
+                .id(assignment.getId())
                 .title(assignment.getTitle())
                 .content(assignment.getContent())
                 .link(assignment.getLink())

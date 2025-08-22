@@ -28,10 +28,7 @@ public class UserService {
     // 유저 전체 조회
     @Transactional(readOnly = true)
     public List<UserResponseDTO> findAll() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
-                .map(UserResponseDTO::from)
-                .toList();
+        return userRepository.findAllUsers();
     }
 
     // 마이페이지 조회
@@ -43,22 +40,15 @@ public class UserService {
                 .orElseThrow(() -> new RestApiException(ErrorCode.USER_NOT_FOUND));
 
         // 과제 조회
-        List<Assignment> assignments = assignmentRepository.findByUser(user);
-        List<AssignmentResponseDto> assignmentResponseDto =
-                assignments.stream()
-                .map(AssignmentResponseDto::from)
-                .toList();
+        List<AssignmentResponseDto> assignments = assignmentRepository.findUserAssignments(user.getId());
 
-        return UserInfoResponseDto.from(user, assignmentResponseDto);
+        return UserInfoResponseDto.from(user, assignments);
     }
 
     // 파트별 조회
     @Transactional(readOnly = true)
     public List<UserResponseDTO> findByPart(String part) {
-        List<User> users = userRepository.findByPart(part);
-        return users.stream()
-                .map(UserResponseDTO::from)
-                .toList();
+        return userRepository.findAllByPart(part);
     }
 
     // 유저 정보 수정

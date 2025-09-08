@@ -18,24 +18,22 @@ public class Recommendation {
     @Column(name = "recommendation_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id")
-    private Assignment assignment;
+    @Column(name = "task_id")
+    private Long assignmentId;
 
     @Builder
-    private Recommendation(User user, Assignment assignment) {
-        this.user = user;
-        this.assignment = assignment;
+    private Recommendation(Long userId, Long assignmentId) {
+        this.userId = userId;
+        this.assignmentId = assignmentId;
     }
 
-    public static Recommendation create(User user, Assignment assignment) {
+    public static Recommendation create(Long userId, Long assignmentId) {
         return Recommendation.builder()
-                .user(user)
-                .assignment(assignment)
+                .userId(userId)
+                .assignmentId(assignmentId)
                 .build();
     }
 }

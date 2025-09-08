@@ -69,7 +69,7 @@ public class AssignmentController implements AssignmentApiSpecification {
     public ResponseEntity<RecommendationResponseDto> doRecommendation(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                       @PathVariable("assignmentId") Long assignmentId) {
         User user = userDetails.getUser();
-        RecommendationResponseDto recommendationResponseDto = recommendationService.doRecommendation(user, assignmentId);
+        RecommendationResponseDto recommendationResponseDto = recommendationService.doRecommendation(user.getId(), assignmentId);
         return ResponseEntity.status(HttpStatus.OK).body(recommendationResponseDto);
     }
 
@@ -78,7 +78,7 @@ public class AssignmentController implements AssignmentApiSpecification {
     public ResponseEntity<String> deleteRecommendation(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                        @PathVariable("assignmentId") Long assignmentId) {
         User user = userDetails.getUser();
-        recommendationService.deleteRecommendation(user, assignmentId);
+        recommendationService.deleteRecommendation(user.getId(), assignmentId);
         return ResponseEntity.status(HttpStatus.OK).body("추천이 취소되었습니다.");
     }
 

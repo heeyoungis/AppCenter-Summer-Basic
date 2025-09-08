@@ -5,6 +5,7 @@ import heeyoung.hee.domain.Assignment.dto.request.AssignmentUpdateDTO;
 import heeyoung.hee.domain.Assignment.dto.response.AssignmentResponseDto;
 import heeyoung.hee.domain.Assignment.entity.Assignment;
 import heeyoung.hee.domain.Assignment.repository.AssignmentRepository;
+import heeyoung.hee.domain.Recommendation.repository.RecommendationRepository;
 import heeyoung.hee.domain.User.entity.User;
 import heeyoung.hee.domain.User.repository.UserRepository;
 import heeyoung.hee.global.exception.ErrorCode;
@@ -25,6 +26,7 @@ public class AssignmentService {
 
     private final UserRepository userRepository;
     private final AssignmentRepository assignmentRepository;
+    private final RecommendationRepository recommendationRepository;
 
     // 과제 제출
     @Transactional
@@ -40,7 +42,7 @@ public class AssignmentService {
                 .content(dto.getContent())
                 .link(dto.getLink())
                 .createdAt(new Date().toString())
-                .user(user)
+                .userId(userId)
                 .build();
 
         // DB 에 저장
@@ -58,7 +60,7 @@ public class AssignmentService {
                 .orElseThrow(()->new RestApiException(ErrorCode.ASSIGNMENT_NOT_FOUND));
 
         // 유저 검증
-        if (!assignment.getUser().getId().equals(user.getId())) {
+        if (!assignment.getUserId().equals(user.getId())) {
             throw new RestApiException(ErrorCode.USER_NOT_MATCH);
         }
 
@@ -80,7 +82,7 @@ public class AssignmentService {
                 .orElseThrow(()->new RestApiException(ErrorCode.ASSIGNMENT_NOT_FOUND));
 
         // 유저 검증
-        if (!assignment.getUser().getId().equals(user.getId())) {
+        if (!assignment.getUserId().equals(user.getId())) {
             throw new RestApiException(ErrorCode.USER_NOT_MATCH);
         }
 
@@ -97,14 +99,17 @@ public class AssignmentService {
             // 추천순
             if (option.equalsIgnoreCase("recommendation")) {
                 List<Assignment> allAssignments = assignmentRepository.findAll();
-                allAssignments.sort(
-                        Comparator.comparingInt((Assignment a) -> a.getRecommendations().size())
-                                .reversed()
-                );
+                List<AssignmentResponseDto> dtos = allAssignments.stream()
+                        .map(a->{
+                            int count = recommendationRepository.countByAssignmentId(a.getId());
+                            return AssignmentResponseDto.from(a, count);
+                        })
+                        .sorted(Comparator.comparingInt(AssignmentResponseDto::getRecommendationCount).reversed())
+                        .toList();
                 // 수동 페이징
                 int start = pageable.getPageNumber() * pageable.getPageSize();
-                int end = Math.min(start + pageable.getPageSize(), allAssignments.size());
-                assignments = allAssignments.subList(start, end);
+                int end = Math.min(start + pageable.getPageSize(), dtos.size());
+                return dtos.subList(start, end);
 
             }
             // 최신순

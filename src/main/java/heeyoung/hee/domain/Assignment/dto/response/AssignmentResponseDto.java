@@ -18,6 +18,17 @@ public class AssignmentResponseDto {
 
     private final String createdAt;
 
+    private final int recommendationCount;
+
+    public AssignmentResponseDto(Long id, String title, String content, String link, String createdAt) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.link = link;
+        this.createdAt = createdAt;
+        this.recommendationCount = 0;
+    }
+
     public static AssignmentResponseDto from(Assignment assignment) {
         return AssignmentResponseDto.builder()
                 .id(assignment.getId())
@@ -25,6 +36,17 @@ public class AssignmentResponseDto {
                 .content(assignment.getContent())
                 .link(assignment.getLink())
                 .createdAt(assignment.getCreatedAt())
+                .build();
+    }
+
+    public static AssignmentResponseDto from(Assignment assignment, int recommendationCount) {
+        return AssignmentResponseDto.builder()
+                .id(assignment.getId())
+                .title(assignment.getTitle())
+                .content(assignment.getContent())
+                .link(assignment.getLink())
+                .createdAt(assignment.getCreatedAt())
+                .recommendationCount(recommendationCount)
                 .build();
     }
 }

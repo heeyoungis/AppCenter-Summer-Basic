@@ -38,35 +38,35 @@ public class Assignment {
     private String createdAt;
 
     // FK 설정
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Recommendation> recommendations = new ArrayList<>();
+//    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private List<Recommendation> recommendations = new ArrayList<>();
+
+
 
     @Builder
-    private Assignment(String title, String content, String link, String createdAt, User user) {
+    private Assignment(String title, String content, String link, String createdAt, Long userId) {
         this.title = title;
         this.content = content;
         this.link = link;
         this.createdAt = createdAt;
-        this.user = user;
-        this.recommendations = new ArrayList<>();
+        this.userId = userId;
     }
 
-    public static Assignment create (String title, String content, String link, String createdAt, User user) {
-        Assignment assignment = Assignment.builder()
-                .title(title)
-                .content(content)
-                .link(link)
-                .createdAt(createdAt)
-                .user(user)
-                .build();
-        assignment.recommendations = new ArrayList<>();
-        return assignment;
-    }
+//    public static Assignment create (String title, String content, String link, String createdAt, Long userId) {
+//        Assignment assignment = Assignment.builder()
+//                .title(title)
+//                .content(content)
+//                .link(link)
+//                .createdAt(createdAt)
+//                .userId(userId)
+//                .build();
+//        assignment.recommendations = new ArrayList<>();
+//        return assignment;
+//    }
 
     public Assignment update (String title, String content, String link) {
         this.title = title;

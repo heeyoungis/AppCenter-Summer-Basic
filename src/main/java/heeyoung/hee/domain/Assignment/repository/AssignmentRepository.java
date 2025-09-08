@@ -16,7 +16,7 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
         SELECT new heeyoung.hee.domain.Assignment.dto.response.AssignmentResponseDto(
             a.id, a.title, a.content, a.link, a.createdAt)
         FROM Assignment a
-        WHERE a.user.id = :userId
+        WHERE a.userId = :userId
         """)
     List<AssignmentResponseDto> findUserAssignments(@Param("userId") Long userId);
 }

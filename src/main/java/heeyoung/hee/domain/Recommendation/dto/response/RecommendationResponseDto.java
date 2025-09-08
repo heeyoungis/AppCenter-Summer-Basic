@@ -11,13 +11,13 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class RecommendationResponseDto {
-    private final Long userID;
-    private final Long taskID;
+    private final Long userId;
+    private final Long taskId;
 
-    public static RecommendationResponseDto from(User user, Assignment assignment) {
+    public static RecommendationResponseDto from(Long userId, Long assignmentId) {
         return RecommendationResponseDto.builder()
-                .userID(user.getId())
-                .taskID(assignment.getId())
+                .userId(userId)
+                .taskId(assignmentId)
                 .build();
     }
 }

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class RecommendationResponseDto {
     private final Long userId;
     private final Long taskId;
+    private final boolean isRecommended;
 
     public static RecommendationResponseDto from(Long userId, Long assignmentId) {
         return RecommendationResponseDto.builder()

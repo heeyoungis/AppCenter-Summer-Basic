@@ -5,7 +5,6 @@ import lombok.*;
 
 @Getter
 @Builder
-@RequiredArgsConstructor
 public class AssignmentResponseDto {
 
     private final Long id;
@@ -20,13 +19,13 @@ public class AssignmentResponseDto {
 
     private final int recommendationCount;
 
-    public AssignmentResponseDto(Long id, String title, String content, String link, String createdAt) {
+    public AssignmentResponseDto(Long id, String title, String content, String link, String createdAt, int recommendationCount) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.link = link;
         this.createdAt = createdAt;
-        this.recommendationCount = 0;
+        this.recommendationCount = recommendationCount;
     }
 
     public static AssignmentResponseDto from(Assignment assignment) {

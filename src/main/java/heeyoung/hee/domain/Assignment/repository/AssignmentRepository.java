@@ -14,7 +14,7 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     @Query("""
         SELECT new heeyoung.hee.domain.Assignment.dto.response.AssignmentResponseDto(
-            a.id, a.title, a.content, a.link, a.createdAt)
+            a.id, a.title, a.content, a.link, a.createdAt, a.recommendationCount)
         FROM Assignment a
         WHERE a.userId = :userId
         """)

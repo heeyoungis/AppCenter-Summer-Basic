@@ -37,15 +37,12 @@ public class Assignment {
     @Column(nullable = false)
     private String createdAt;
 
+    @Column(nullable = false)
+    private int recommendationCount = 0;
+
     // FK 설정
     @Column(name = "user_id")
     private Long userId;
-
-//    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private List<Recommendation> recommendations = new ArrayList<>();
-
-
 
     @Builder
     private Assignment(String title, String content, String link, String createdAt, Long userId) {
@@ -56,22 +53,20 @@ public class Assignment {
         this.userId = userId;
     }
 
-//    public static Assignment create (String title, String content, String link, String createdAt, Long userId) {
-//        Assignment assignment = Assignment.builder()
-//                .title(title)
-//                .content(content)
-//                .link(link)
-//                .createdAt(createdAt)
-//                .userId(userId)
-//                .build();
-//        assignment.recommendations = new ArrayList<>();
-//        return assignment;
-//    }
-
     public Assignment update (String title, String content, String link) {
         this.title = title;
         this.content = content;
         this.link = link;
         return this;
+    }
+
+    public void increaseRecommendationCount() {
+        this.recommendationCount++;
+    }
+
+    public void decreaseRecommendationCount() {
+        if (this.recommendationCount > 0) {
+            this.recommendationCount--;
+        }
     }
 }

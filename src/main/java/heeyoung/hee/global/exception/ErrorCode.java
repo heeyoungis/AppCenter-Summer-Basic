@@ -19,7 +19,8 @@ public enum ErrorCode {
     INVALID_SORT_OPTION(HttpStatus.BAD_REQUEST, "정렬은 최신순/추천순만 가능합니다."),
 
     // Recommendation
-    USER_NOT_MATCH(HttpStatus.BAD_REQUEST, "추천 취소 권한이 없습니다.");
+    USER_NOT_MATCH(HttpStatus.BAD_REQUEST, "추천 취소 권한이 없습니다."),
+    ALREADY_RECOMMENDED(HttpStatus.BAD_REQUEST, "이미 추천한 과제입니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

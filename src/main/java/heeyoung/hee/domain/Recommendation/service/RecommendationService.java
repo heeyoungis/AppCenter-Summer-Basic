@@ -28,6 +28,13 @@ public class RecommendationService {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new RestApiException(ErrorCode.ASSIGNMENT_NOT_FOUND));
 
+        // 중복 검사
+        boolean isRecommended = recommendationRepository.existsByUserIdAndAssignmentId(userId, assignmentId);
+
+        if (isRecommended) {
+            throw new RestApiException(ErrorCode.ALREADY_RECOMMENDED);
+        }
+
         // 추천 객체 생성
         Recommendation recommendation = Recommendation.create(userId, assignmentId);
 
@@ -38,7 +45,7 @@ public class RecommendationService {
         recommendationRepository.save(recommendation);
 
         // 응답 DTO 에 담아 반환
-        return RecommendationResponseDto.from(userId, assignmentId);
+        return RecommendationResponseDto.from(userId, assignmentId, true);
     }
 
     // 과제 추천 삭제

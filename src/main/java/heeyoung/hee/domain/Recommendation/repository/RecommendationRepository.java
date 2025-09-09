@@ -12,4 +12,5 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
 
     int countByAssignmentId(Long assignmentId);
     Optional<Recommendation> findByUserIdAndAssignmentId(Long id, Long assignmentId);
+    Boolean existsByUserIdAndAssignmentId(Long id, Long assignmentId);
 }

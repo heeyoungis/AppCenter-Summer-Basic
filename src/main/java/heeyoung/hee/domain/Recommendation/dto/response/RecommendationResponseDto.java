@@ -15,10 +15,11 @@ public class RecommendationResponseDto {
     private final Long taskId;
     private final boolean isRecommended;
 
-    public static RecommendationResponseDto from(Long userId, Long assignmentId) {
+    public static RecommendationResponseDto from(Long userId, Long assignmentId, boolean isRecommended) {
         return RecommendationResponseDto.builder()
                 .userId(userId)
                 .taskId(assignmentId)
+                .isRecommended(isRecommended)
                 .build();
     }
 }

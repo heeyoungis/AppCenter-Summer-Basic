@@ -1,6 +1,7 @@
 package heeyoung.hee.domain.User.service;
 
 import heeyoung.hee.domain.Assignment.dto.response.AssignmentResponseDto;
+import heeyoung.hee.domain.Assignment.dto.response.UserAssignmentResponseDto;
 import heeyoung.hee.domain.Assignment.entity.Assignment;
 import heeyoung.hee.domain.Assignment.repository.AssignmentRepository;
 import heeyoung.hee.domain.User.dto.request.UserUpdateDto;
@@ -40,7 +41,7 @@ public class UserService {
                 .orElseThrow(() -> new RestApiException(ErrorCode.USER_NOT_FOUND));
 
         // 과제 조회
-        List<AssignmentResponseDto> assignments = assignmentRepository.findUserAssignments(user.getId());
+        List<UserAssignmentResponseDto> assignments = assignmentRepository.findUserAssignments(user.getId());
 
         return UserInfoResponseDto.from(user, assignments);
     }

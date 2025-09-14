@@ -91,7 +91,7 @@ public class AssignmentService {
 
     // 과제 전체 조회
     @Transactional(readOnly = true)
-    public List<AssignmentResponseDto> findAllAssignments(String option, Pageable pageable) {
+    public List<AssignmentResponseDto> findAllAssignments(User user, String option, Pageable pageable) {
 
         List<Assignment> assignments = new ArrayList<>();
 
@@ -102,7 +102,8 @@ public class AssignmentService {
                 List<AssignmentResponseDto> dtos = allAssignments.stream()
                         .map(a->{
                             int count = recommendationRepository.countByAssignmentId(a.getId());
-                            return AssignmentResponseDto.from(a, count);
+                            boolean isRecommended = recommendationRepository.existsByUserIdAndAssignmentId(user.getId(), a.getId());
+                            return AssignmentResponseDto.from(a, count, isRecommended);
                         })
                         .sorted(Comparator.comparingInt(AssignmentResponseDto::getRecommendationCount).reversed())
                         .toList();

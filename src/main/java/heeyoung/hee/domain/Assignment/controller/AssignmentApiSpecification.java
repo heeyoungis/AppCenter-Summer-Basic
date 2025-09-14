@@ -100,13 +100,29 @@ public interface AssignmentApiSpecification {
     })
     public ResponseEntity<String> deleteAssignment(@PathVariable Long assignmentId,@AuthenticationPrincipal UserDetailsImpl userDetails);
 
-    @Operation(summary = "과제 조회", description = "모든 과제 조회 api")
+    @Operation(summary = "모든 과제 조회", description = "모든 과제 조회 api")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "✅과제 조회 성공")
     })
     public ResponseEntity<List<AssignmentResponseDto>> getAll(
             @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(name = "sort", required = false) String options);
+
+    @Operation(summary = "과제 조회", description = "과제 조회 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "✅과제 조회 성공"),
+            @ApiResponse(responseCode = "400", description = "❌과제 조회 실패",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorCode.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "과제 찾을 수 없음",
+                                            value = "{\"error\": \"404\", \"message\": \"해당 과제를 찾을 수 없습니다.\"}"
+                                    )
+                            })
+            ),
+    })
+    public ResponseEntity<AssignmentResponseDto> getAssignment(@PathVariable Long assignmentId, @AuthenticationPrincipal UserDetailsImpl userDetails);
 
     @Operation(summary = "추천", description = "과제 추천 api")
     @ApiResponses(value = {
@@ -125,6 +141,7 @@ public interface AssignmentApiSpecification {
     })
     public ResponseEntity<RecommendationResponseDto> doRecommendation(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                       @PathVariable("assignmentId") Long assignmentId);
+
 
     @Operation(summary = "추천 취소", description = "과제 추천 취소 api")
     @ApiResponses(value = {

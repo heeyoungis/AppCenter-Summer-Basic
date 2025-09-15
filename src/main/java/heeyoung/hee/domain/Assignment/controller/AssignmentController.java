@@ -78,7 +78,7 @@ public class AssignmentController implements AssignmentApiSpecification {
     }
 
     // 과제 조회
-    @GetMapping("/{assignmentId}")
+    @GetMapping("/{assignmentId}/recommendation")
     public ResponseEntity<AssignmentResponseDto> getAssignment(@PathVariable Long assignmentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         Assignment assignment = assignmentRepository.findById(assignmentId)
